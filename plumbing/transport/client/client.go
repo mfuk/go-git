@@ -26,6 +26,7 @@ var Protocols = map[string]transport.Transport{
 
 var insecureClient = http.NewClient(&gohttp.Client{
 	Transport: &gohttp.Transport{
+		Proxy: gohttp.ProxyFromEnvironment,
 		TLSClientConfig: &tls.Config{
 			InsecureSkipVerify: true,
 		},
@@ -63,6 +64,7 @@ func getTransport(endpoint *transport.Endpoint) (transport.Transport, error) {
 			rootCAs.AppendCertsFromPEM(endpoint.CaBundle)
 			return http.NewClient(&gohttp.Client{
 				Transport: &gohttp.Transport{
+					Proxy: gohttp.ProxyFromEnvironment,
 					TLSClientConfig: &tls.Config{
 						RootCAs: rootCAs,
 					},
